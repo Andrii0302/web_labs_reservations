@@ -142,7 +142,14 @@ class BookingView(APIView):
                 )
             booking.status = "canceled"
             booking.save()
-
+            slot = AvailableSlot.objects.filter(
+                room=booking.room,
+                start_time=booking.start_time,
+                end_time=booking.end_time
+            ).first()
+            if slot:
+                slot.is_available = True
+                slot.save()
             return Response(
                 {"message": f"Booking {booking_id} has been canceled."},
                 status=status.HTTP_200_OK
