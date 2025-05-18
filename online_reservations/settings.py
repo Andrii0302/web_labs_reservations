@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_simplejwt.token_blacklist",
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -140,6 +143,19 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ADMINS = [
     ('Admin Name', '@gmail.com'),  # Replace with your admin details
 ]
+from datetime import timedelta
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),  
+    'SIGNING_KEY': SECRET_KEY,
+}
 # Add DEFAULT_EXCEPTION_REPORTER
 DEFAULT_EXCEPTION_REPORTER = 'django.views.debug.ExceptionReporter'
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+  'http://localhost:3000',
+)
+
+CORS_ALLOW_CREDENTIALS = True
